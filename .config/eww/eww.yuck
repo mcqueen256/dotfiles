@@ -37,17 +37,17 @@
         (revealer
           :transition "crossfade"
           :reveal {workspace-hover != number && ! active}
-          (image :path '/home/nicholas/.config/eww/rhomnus.svg' :image-width 32 :image-height 32)
+          (image :path '/home/nicholas/.config/eww/imgs/rhombus_red.svg' :image-width 32 :image-height 32)
         )
         (revealer
           :transition "crossfade"
           :reveal {workspace-hover == number && ! active}
-          (image :path '/home/nicholas/.config/eww/rhombus_faded.svg' :image-width 32 :image-height 32)
+          (image :path '/home/nicholas/.config/eww/imgs/rhombus_cyan.svg' :image-width 32 :image-height 32)
         )
         (revealer
           :transition "crossfade"
           :reveal active
-          (image :path '/home/nicholas/.config/eww/rhombus_faded_yellow.svg' :image-width 32 :image-height 32)
+          (image :path '/home/nicholas/.config/eww/imgs/rhombus_yellow.svg' :image-width 32 :image-height 32)
         )
         (box
           :class "workspace-number"
@@ -66,7 +66,7 @@
 (defwidget left []
   (box
     (workspaces)
-    (image :path "/home/nicholas/.config/eww/rhomnus.svg" :image-width 32 :image-height 32)
+    (image :path "/home/nicholas/.config/eww/imgs/rhombus.svg" :image-width 32 :image-height 32)
   )
 )
 (defwidget middle [] (time))
@@ -75,7 +75,7 @@
   (box :orientation "h" 
        :class "time"
     (overlay
-      (image :path "/home/nicholas/.config/eww/trapazoid_faded_yellow.svg")
+      (image :path "/home/nicholas/.config/eww/imgs/trapazoid_yellow.svg")
       "${day}${day_suffix} ${month} - ${hour}:${min} ${am_pm}"
     )))
 
