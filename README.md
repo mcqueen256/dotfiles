@@ -55,3 +55,10 @@ exa?
 
 [ ] show wallpapers given time of day. (show morning wall paper really early)
 
+
+---
+
+# Hyprland Workspaces
+
+
+File `/tmp/hyprland_workspace_position` is used to track the current workspace. Programs like eww depend on this for event driven updating.

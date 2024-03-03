@@ -17,8 +17,8 @@ SCRIPT_DIR=$(cd -- "$(dirname -- "${BASH_SOURCE[0]}")" &>/dev/null && pwd)
 function prompt {
 	local MSG=$1
 	local QUERY=$2
-	print "${YELLOW}WARN:${NC} $MSG\n"
-	print "Currently: "
+	echo -e "${YELLOW}WARN:${NC} $MSG"
+	echo -n "Currently: "
 	ls "$DEST"
 	while true; do
 		read -r -p "$QUERY (Y/n) " yn
@@ -30,21 +30,37 @@ function prompt {
 	done
 }
 
+install_bin() {
+	echo Linking scripts.
+	mkdir -p "$HOME/bin"
+	shopt -s nullglob
+	local filename
+	for script in "$SCRIPT_DIR/../bin"/*; do
+		filename=$(basename "$script")
+		if ! [ -L "$HOME/bin/$filename" ]; then
+			ln -s "$(realpath "$script")" "$HOME/bin/$filename"
+		fi
+	done
+}
+
 # Install a `~/.config/{COMPONENT}`.
 #
 # Links the `COMPONENT` to this repos directory.
 install_config_component() {
-	local SRC="$SCRIPT_DIR/../.config/$1"
-	local DEST="$HOME/.config/$1"
-
-	function make_link {
-		ln -s "$SCRIPT_DIR/.config/eww" "$HOME/.config/eww"
-	}
-
 	# Check function arguments.
 	if [[ "$#" != "1" ]]; then
 		echo "Error: Expected 1 argument, got $#."
 	fi
+
+	local COMPONENT="$1"
+	local SRC="$SCRIPT_DIR/../.config/$COMPONENT"
+	local DEST="$HOME/.config/$COMPONENT"
+
+	function make_link {
+		local TARGET="$SRC"
+		local LINKNAME="$DEST"
+		ln -s "$TARGET" "$LINKNAME"
+	}
 
 	# Make a backup if a directory exists.
 	#
@@ -57,7 +73,8 @@ install_config_component() {
 	# Only need to worry about case 2 & 3
 
 	# Case 1.
-	if ! { [ -f "$DEST" ] || [ -d "$DEST" ]; }; then
+	# Also make sure it isn't a broken link
+	if [ ! -f "$DEST" ] && [ ! -d "$DEST" ] && [ ! -e "$DEST" ] && [ ! -h "$DEST" ]; then
 		make_link
 		return
 	fi
@@ -68,35 +85,35 @@ install_config_component() {
 			mv "$DEST" "${DEST}_backup"
 			make_link
 		else
-			echo Skipping installing "$1"
+			echo Skipping installing "$COMPONENT"
 		fi
 		return
 	fi
 
 	# Case 3.
-	if [ -L "$DEST" ] && test "$(readlink -f "$DEST")" != "$(realpath "$SRC")"; then
+	if [ -L "$DEST" ] && [[ "$(readlink -f "$DEST")" != "$(realpath "$SRC")" ]]; then
 		if prompt "Found existing link at $DEST -> $(readlink "$DEST")" "Relink to $SRC?"; then
 			unlink "$DEST"
 			make_link
 		else
-			echo Skipping installing "$1"
+			echo Skipping installing "$COMPONENT"
 		fi
 		return
 	fi
 
 	# Case 4.
 	if [ -L "$DEST" ] && test "$(readlink -f "$DEST")" == "$(realpath "$SRC")"; then
-		echo "$1 already installed."
+		echo "$COMPONENT already installed."
 		return
 	fi
 
 	# Unhandled case.
 	# Debug information to understand the missing case.
-	print "Is file ($DEST): "
+	echo -n "Is file ($DEST): "
 	if [ -f "$DEST" ]; then echo YES; else echo NO; fi
-	print "Is directory ($DEST): "
+	echo -n "Is directory ($DEST): "
 	if [ -d "$DEST" ]; then echo YES; else echo NO; fi
-	print "Is link ($DEST): "
+	echo -n "Is link ($DEST): "
 	if [ -L "$DEST" ]; then echo YES; else echo NO; fi
 	echo "readlink: $(readlink -f "$DEST")"
 }

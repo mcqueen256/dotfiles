@@ -18,6 +18,7 @@
 (deflisten current_workspace :initial "0" `tail -f /tmp/hyprland_workspace_position`)
 
 (defwidget workspaces []
+  <polygon points="0,0 16,32 32,32 16,0" fill="#ffef00" fill-opacity="0.3" stroke="#ffef00" stroke-width="2" filter="url(#glow)" />
   (eventbox
     :onhoverlost "${EWW_CMD} update workspace-hover=0"
     (box
@@ -30,20 +31,23 @@
 
 (defwidget workspace [number active]
   (eventbox
-    :onhover "${EWW_CMD} update workspace-hover=${number}"
+    :onhover "${EWW_CMD} update workspace-hover=${number} && echo hover number ${number}"
     (button
-      :onclick "hyprctl dispatch workspace ${number} && ~/bin/update_workspace_position"
+      :onclick "hyprctl dispatch workspace ${number} && ~/.config/bin/update_workspace_position"
       (overlay
+        ;; Not current workspace and not hovering.
         (revealer
           :transition "crossfade"
           :reveal {workspace-hover != number && ! active}
           (image :path '/home/nicholas/.config/eww/imgs/rhombus_red.svg' :image-width 32 :image-height 32)
         )
+        ;; Not current workspace but (and) hovering.
         (revealer
           :transition "crossfade"
           :reveal {workspace-hover == number && ! active}
           (image :path '/home/nicholas/.config/eww/imgs/rhombus_cyan.svg' :image-width 32 :image-height 32)
         )
+        ;; Current Workspace.
         (revealer
           :transition "crossfade"
           :reveal active
@@ -63,12 +67,7 @@
 
 (defwidget status [] "ah" )
 
-(defwidget left []
-  (box
-    (workspaces)
-    (image :path "/home/nicholas/.config/eww/imgs/rhombus.svg" :image-width 32 :image-height 32)
-  )
-)
+(defwidget left [] (workspaces))
 (defwidget middle [] (time))
 (defwidget right [] (status))
 (defwidget time []
@@ -164,7 +163,7 @@
 (defpoll am_pm :interval "1s" "date +%p")
 ;;
 (defpoll day      :interval "10m" "date +%_d | xargs")
-(defpoll day_suffix :interval "10m" "sh ~/.config/eww/date_suffix.sh")
+(defpoll day_suffix :interval "10m" "sh ${EWW_CONFIG_DIR}/scripts/date_suffix.sh")
 (defpoll month    :interval "1h"  "date +%b")
 ;;
 ;; (defvar workspaces_1_yuck "")
