@@ -57,8 +57,10 @@ install_config_component() {
 	local DEST="$HOME/.config/$COMPONENT"
 
 	function make_link {
-		local TARGET="$SRC"
-		local LINKNAME="$DEST"
+		local TARGET
+		local LINKNAME
+		TARGET="$(realpath "$SRC")"
+		LINKNAME="$(realpath "$DEST")"
 		ln -s "$TARGET" "$LINKNAME"
 	}
 
@@ -75,6 +77,7 @@ install_config_component() {
 	# Case 1.
 	# Also make sure it isn't a broken link
 	if [ ! -f "$DEST" ] && [ ! -d "$DEST" ] && [ ! -e "$DEST" ] && [ ! -h "$DEST" ]; then
+		echo "Linking config $COMPONENT"
 		make_link
 		return
 	fi

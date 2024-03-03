@@ -18,7 +18,6 @@
 (deflisten current_workspace :initial "0" `tail -f /tmp/hyprland_workspace_position`)
 
 (defwidget workspaces []
-  <polygon points="0,0 16,32 32,32 16,0" fill="#ffef00" fill-opacity="0.3" stroke="#ffef00" stroke-width="2" filter="url(#glow)" />
   (eventbox
     :onhoverlost "${EWW_CMD} update workspace-hover=0"
     (box
@@ -163,7 +162,7 @@
 (defpoll am_pm :interval "1s" "date +%p")
 ;;
 (defpoll day      :interval "10m" "date +%_d | xargs")
-(defpoll day_suffix :interval "10m" "sh ${EWW_CONFIG_DIR}/scripts/date_suffix.sh")
+(defpoll day_suffix :interval "10m" "sh ~/.config/eww/scripts/date_suffix.sh")
 (defpoll month    :interval "1h"  "date +%b")
 ;;
 ;; (defvar workspaces_1_yuck "")
