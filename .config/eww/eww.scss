@@ -6,6 +6,10 @@ box {
   // border: 1px solid #00FFFF;
 }
 
+image {
+  // border: 1px solid violet;
+}
+
 .topbar {
   border-top: 2px solid #efdf00;
 }
@@ -21,6 +25,14 @@ box {
   padding-left: 4px;
   font-family: "ProggyClean Nerd Font";
   font-size: 24px;
+}
+
+.stretch {
+  border: 1px solid cyan;
+}
+.stretch image {
+  transition-duration: 1.5s;
+  transition-timing-function: ease-in-out;
 }
 
 // window {

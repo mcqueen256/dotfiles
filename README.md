@@ -2,8 +2,25 @@
 
 # Topbar
 `eww`
-[ ] Move between workspaces.
+[x] Move between workspaces.
 [ ] make sure shell completions are loaded. `eww shell-completions`
+[ ] Power / Battery tracking.
+[ ] Network connectivity status.
+[ ] Network connect/disconnect.
+[ ] Network Wifi Selection.
+[ ] Power Menu
+    - [ ] Shutdown
+    - [ ] Sleep.
+    - [ ] Lock.
+    - [ ] Logout.
+[ ] Sound.
+[ ] Bluetooth.
+[ ] Settings.
+[ ] Spotify.
+[ ] Notifications.
+[ ] Search.
+[ ] Window explorer: https://github.com/DreamMaoMao/hycov
+[ ] Open applications.
 
 # Bindings
 
@@ -20,6 +37,7 @@ Mirror nvim panels.
 [ ] neovim
 [ ] eww
 [ ] swww
+     - [ ] Seasonal Backgrounds.
 [ ] oh-my-posh
 
 [ ] zshrc
@@ -47,6 +65,8 @@ pacman -S network-manager iwd dnsutil
 
 ```
 pacman -S yazi zoxide tree
+# maybe not the one below, might be a dead project.
+sudo pacman -Sy python-ueberzug
 ```
 
 exa?
@@ -62,3 +82,8 @@ exa?
 
 
 File `/tmp/hyprland_workspace_position` is used to track the current workspace. Programs like eww depend on this for event driven updating.
+
+
+# Design insperation
+
+https://dribbble.com/shots/21534554-Cyberpunk-2077-PPT-Template

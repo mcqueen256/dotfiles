@@ -63,12 +63,130 @@
 
 
 
+(defvar stretch false)
+(defwidget status []
+  (box
+    :class "stretch"
+    :width { stretch ? 200 : 128 }
+    (eventbox
+      :onclick "eww update stretch=${!stretch} && echo stretch set to ${!stretch}"
+      (image
+        :path "${EWW_CONFIG_DIR}/imgs/rhombus_stretch_red.svg"
+        ;; "ah  󰤨  󰛳  ⏻ "
+      )
+    )
+  )
+)
 
-(defwidget status [] "ah" )
+(defwidget controls []
+  (box
+    (control-settings)
+    (status-battery)
+    (control-network)
+    (control-sound)
+    (control-session)
+  )
+)
+
+(defwidget icon-control [icon]
+  (eventbox
+    "${icon}"
+  )
+)
+
+(defwidget control-settings []
+  ;; (icon-control :icon " ")
+  (eventbox
+    :onclick "hyprctl dispatch exec env XDG_CURRENT_DESKTOP=GNOME gnome-control-center"
+    " "
+  )
+)
+
+
+
+(defwidget status-battery []
+  (overlay
+    (revealer
+      :transition "crossfade"
+      :reveal {EWW_BATTERY.BAT0.status == "Not charging"}
+      "${EWW_BATTERY.BAT0.capacity}% 󱃍 "
+    )
+    (revealer
+      :transition "crossfade"
+      :reveal {EWW_BATTERY.BAT0.status == "Charging"}
+      "${EWW_BATTERY.BAT0.capacity}% ${
+        EWW_BATTERY.BAT0.capacity   <   5 ? "󰢟 "
+        : EWW_BATTERY.BAT0.capacity <= 10 ? "󰢜 "
+        : EWW_BATTERY.BAT0.capacity <= 20 ? "󰂆 "
+        : EWW_BATTERY.BAT0.capacity <= 30 ? "󰂇 "
+        : EWW_BATTERY.BAT0.capacity <= 40 ? "󰂈 "
+        : EWW_BATTERY.BAT0.capacity <= 50 ? "󰢝 "
+        : EWW_BATTERY.BAT0.capacity <= 60 ? "󰂉 "
+        : EWW_BATTERY.BAT0.capacity <= 70 ? "󰢞 "
+        : EWW_BATTERY.BAT0.capacity <= 80 ? "󰂊 "
+        : EWW_BATTERY.BAT0.capacity <= 90 ? "󰂋 "
+        :                                   "󰂅 "
+      }"
+    )
+    (revealer
+      :transition "crossfade"
+      :reveal {EWW_BATTERY.BAT0.status == "Discharging"}
+      "${EWW_BATTERY.BAT0.capacity}% ${
+        EWW_BATTERY.BAT0.capacity   <   5 ? "󰂎 "
+        : EWW_BATTERY.BAT0.capacity <= 10 ? "󰁺 "
+        : EWW_BATTERY.BAT0.capacity <= 20 ? "󰁻 "
+        : EWW_BATTERY.BAT0.capacity <= 30 ? "󰁼 "
+        : EWW_BATTERY.BAT0.capacity <= 40 ? "󰁽 "
+        : EWW_BATTERY.BAT0.capacity <= 50 ? "󰁾 "
+        : EWW_BATTERY.BAT0.capacity <= 60 ? "󰁿 "
+        : EWW_BATTERY.BAT0.capacity <= 70 ? "󰂀 "
+        : EWW_BATTERY.BAT0.capacity <= 80 ? "󰂁 "
+        : EWW_BATTERY.BAT0.capacity <= 90 ? "󰂂 "
+        :                                   "󰁹 "
+      }"
+    )
+  )
+)
+
+;; (defwidget status-battery []
+;;   (icon-control :icon "${
+;;     EWW_BATTERY.BAT0.capacity <   5 ? "󰂎 "
+;;   : EWW_BATTERY.BAT0.capacity <= 10 ? "󰁺 "
+;;   : EWW_BATTERY.BAT0.capacity <= 20 ? "󰁻 "
+;;   : EWW_BATTERY.BAT0.capacity <= 30 ? "󰁼 "
+;;   : EWW_BATTERY.BAT0.capacity <= 40 ? "󰁽 "
+;;   : EWW_BATTERY.BAT0.capacity <= 50 ? "󰁾 "
+;;   : EWW_BATTERY.BAT0.capacity <= 60 ? "󰁿 "
+;;   : EWW_BATTERY.BAT0.capacity <= 70 ? "󰂀 "
+;;   : EWW_BATTERY.BAT0.capacity <= 80 ? "󰂁 "
+;;   : EWW_BATTERY.BAT0.capacity <= 90 ? "󰂂 "
+;;   :                                   "󰁹 "
+;; } ${EWW_BATTERY.BAT0}%")
+;; )
+
+(defwidget control-network []
+  (icon-control :icon "󰤨 ")
+)
+
+(defwidget control-sound []
+  (icon-control :icon " ")
+)
+
+(defwidget control-session []
+  (icon-control :icon "󰐦 ")
+)
+
+(defwidget search []
+  (box "search")
+)
+
+(defwidget open-windows []
+  (box "open-windows")
+)
 
 (defwidget left [] (workspaces))
 (defwidget middle [] (time))
-(defwidget right [] (status))
+(defwidget right [] (controls))
 (defwidget time []
   (box :orientation "h" 
        :class "time"
