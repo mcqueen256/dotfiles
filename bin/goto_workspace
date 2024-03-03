@@ -1,0 +1,6 @@
+#!/usr/bin/env bash
+# `./goto_workspace <POSITION>`
+# Where POSITION is the workspace number.
+# This script got to the selected workspace and updates the position file.
+hyprctl dispatch workspace "$1"
+~/bin/update_workspace_position
