@@ -1,4 +1,4 @@
-<svg height="32" width="500" xmlns="http://www.w3.org/2000/svg">
+<svg height="32" width="50" xmlns="http://www.w3.org/2000/svg">
   <!-- Define a filter for the glow effect -->
   <defs>
     <filter id="glow" x="-50%" y="-50%" width="200%" height="200%">
@@ -9,5 +9,5 @@
       </feMerge>
     </filter>
   </defs>
-  <polygon points="-5,0 0,0 ,32 460,32 476,0" fill="#ffef00" fill-opacity="0.3" stroke="#ffef00" stroke-width="2" filter="url(#glow)" />
+  <polygon points="18,1 2,31 32,31 48,1" fill="#bf101c" fill-opacity="0.3" stroke="#ff003c" stroke-width="2" filter="url(#glow)" />
 </svg>

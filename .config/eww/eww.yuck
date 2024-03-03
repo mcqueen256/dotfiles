@@ -148,24 +148,22 @@
   )
 )
 
-;; (defwidget status-battery []
-;;   (icon-control :icon "${
-;;     EWW_BATTERY.BAT0.capacity <   5 ? "󰂎 "
-;;   : EWW_BATTERY.BAT0.capacity <= 10 ? "󰁺 "
-;;   : EWW_BATTERY.BAT0.capacity <= 20 ? "󰁻 "
-;;   : EWW_BATTERY.BAT0.capacity <= 30 ? "󰁼 "
-;;   : EWW_BATTERY.BAT0.capacity <= 40 ? "󰁽 "
-;;   : EWW_BATTERY.BAT0.capacity <= 50 ? "󰁾 "
-;;   : EWW_BATTERY.BAT0.capacity <= 60 ? "󰁿 "
-;;   : EWW_BATTERY.BAT0.capacity <= 70 ? "󰂀 "
-;;   : EWW_BATTERY.BAT0.capacity <= 80 ? "󰂁 "
-;;   : EWW_BATTERY.BAT0.capacity <= 90 ? "󰂂 "
-;;   :                                   "󰁹 "
-;; } ${EWW_BATTERY.BAT0}%")
-;; )
+(defpoll wifi-signal
+  :interval "5s"
+  :initial "100"
+  `nmcli -f IN-USE,SIGNAL,SSID device wifi | awk '/^\*/{if (NR!=1) {print $2}}'`
+)
 
+;; TODO: Check EWW_NET to see if interface is up or down.
+;; TODO: Show if wifi/network is not connected.
 (defwidget control-network []
-  (icon-control :icon "󰤨 ")
+  (icon-control :icon " ${
+    wifi-signal   >= 80 ? "󰤨 "
+    : wifi-signal >= 65 ? "󰤥 "
+    : wifi-signal >= 50 ? "󰤢 "
+    : wifi-signal >= 35 ? "󰤟 "
+    :                     "󰤯 "
+  }")
 )
 
 (defwidget control-sound []
@@ -173,7 +171,15 @@
 )
 
 (defwidget control-session []
-  (icon-control :icon "󰐦 ")
+  (eventbox
+    (overlay
+      (image :path "/home/nicholas/.config/eww/imgs/rhombus_right_red.svg")
+      (box
+        :style "padding-left: 5px; color: cyan;"
+        "⏻ "
+      )
+    )
+  )
 )
 
 (defwidget search []

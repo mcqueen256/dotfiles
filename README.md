@@ -4,7 +4,7 @@
 `eww`
 [x] Move between workspaces.
 [ ] make sure shell completions are loaded. `eww shell-completions`
-[ ] Power / Battery tracking.
+[x] Power / Battery tracking.
 [ ] Network connectivity status.
 [ ] Network connect/disconnect.
 [ ] Network Wifi Selection.
