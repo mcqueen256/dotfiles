@@ -1,0 +1,119 @@
+* {
+  all: unset;
+}
+
+box {
+  // border: 1px solid #00FFFF;
+}
+
+.topbar {
+  border-top: 2px solid #efdf00;
+}
+
+.time {
+  color: cyan;
+  font-family: "ProggyClean Nerd Font";
+  font-size: 24px;
+}
+
+.workspace-number {
+  color: cyan;
+  padding-left: 4px;
+  font-family: "ProggyClean Nerd Font";
+  font-size: 24px;
+}
+
+// window {
+//   background: #282828;
+//   color: #ebdbb2;
+//   font-size: 14px;
+//
+//   & > * {
+//     margin: 3px;
+//   }
+// }
+//
+// .workspaces {
+//   button {
+//     background: none;
+//     margin: 4px;
+//     padding-left: 2px;
+//     &.inactive {
+//       color: #888975;
+//     }
+//     &.active {
+//       color: #9ec07c;
+//     }
+//     &.occupied {
+//       font-size: 2.01rem;
+//     }
+//     &.empty {
+//       font-size: 1.8rem;
+//     }
+//   }
+// }
+//
+// .segment-top {
+//   margin-top: 10px;
+// }
+//
+// .segment-bottom {
+//   margin-bottom: 10px;
+// }
+//
+// .volume-metric {
+//   background-color: #1d2021;
+//   color: #ebdbb2;
+//   padding: 0;
+//
+//   .volume-top > scale {
+//     margin-bottom: 5px;
+//   }
+//
+//   slider {
+//     all: unset;
+//   }
+//
+//   scale trough highlight {
+//     all: unset;
+//     //background-color: #8ec07c;
+//     background-color: #665c54;
+//     border-bottom-right-radius: 5px;
+//   }
+//   scale trough {
+//     all: unset;
+//     background-color: #1d2021;
+//     min-width: 34px;
+//     min-height: 2px;
+//   }
+// }
+//
+// .large-symbol {
+//   font-size: 0.8em;
+// }
+//
+// .metric {
+//   background-color: #1d2021;
+//   padding: 5px 2px;
+// }
+// .metric-icon {
+//   font-family: "FontAwesome5Free";
+//   font-size: 0.7em;
+// }
+//
+// .time {
+//   padding-top: 7px;
+//   padding-bottom: 7px;
+//   color: #a89984;
+// }
+//
+//
+//
+//
+//
+// .music_popup {
+//   all: unset;
+//   background-color: #1d2021;
+//   padding: 0px 20px;
+//   margin: 0;
+// }

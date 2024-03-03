@@ -1,0 +1,15 @@
+<svg width="40" height="36" xmlns="http://www.w3.org/2000/svg">
+  <!-- Define a filter for the glow effect -->
+  <defs>
+    <filter id="glow" x="-50%" y="-50%" width="200%" height="200%">
+      <feGaussianBlur stdDeviation="2" result="coloredBlur"/>
+      <feMerge>
+        <feMergeNode in="coloredBlur"/>
+        <feMergeNode in="SourceGraphic"/>
+      </feMerge>
+    </filter>
+  </defs>
+  
+  <!-- Draw a skewed rectangle with a cyan fill and border, apply the glow filter, and set fill opacity -->
+  <rect x="5" y="4" width="28" height="28" fill="cyan" fill-opacity="0.3" stroke="cyan" stroke-width="2" transform="skewX(10)" filter="url(#glow)" />
+</svg>

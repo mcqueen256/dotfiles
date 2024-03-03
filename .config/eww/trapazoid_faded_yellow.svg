@@ -1,0 +1,15 @@
+<svg height="32" width="500" xmlns="http://www.w3.org/2000/svg">
+  <!-- Define a filter for the glow effect -->
+  <defs>
+    <filter id="glow" x="-50%" y="-50%" width="200%" height="200%">
+      <feGaussianBlur stdDeviation="2" result="coloredBlur"/>
+      <feMerge>
+        <feMergeNode in="coloredBlur"/>
+        <feMergeNode in="SourceGraphic"/>
+      </feMerge>
+    </filter>
+  </defs>
+  <polygon points="0,0 16,32 32,32 16,0" fill="#ffef00" fill-opacity="0.3" stroke="#ffef00" stroke-width="2" filter="url(#glow)" />
+  <polygon points="24,0 40,32 460,32 476,0" fill="#ffef00" fill-opacity="0.3" stroke="#ffef00" stroke-width="2" filter="url(#glow)" />
+  <polygon points="500,0 484,32 468,32 484,0" fill="#ffef00" fill-opacity="0.3" stroke="#ffef00" stroke-width="2" filter="url(#glow)" />
+</svg>

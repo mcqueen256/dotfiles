@@ -1,0 +1,182 @@
+(defwidget bar [screen]
+  (centerbox :orientation "h" :class "topbar"
+    (box :class "segment-top"
+         :halign "start"
+      (left :screen screen))
+    (box :halign "center"
+         :class "middle" 
+      (middle :screen screen))
+    (box :halign "end"
+         :class "segment-bottom" 
+      (right :screen screen))))
+
+;; (defwidget top [screen]
+;;   (workspaces :wsp_yuck {screen == 1 ? workspaces_1_yuck : workspaces_2_yuck}))
+
+(defvar workspace-hover 0)
+
+(deflisten current_workspace :initial "0" `tail -f /tmp/hyprland_workspace_position`)
+
+(defwidget workspaces []
+  (eventbox
+    :onhoverlost "${EWW_CMD} update workspace-hover=0"
+    (box
+      (for space in "[1,2,3,4,5,6,7]"
+        (workspace :number space :active {space == current_workspace})
+      )
+    )
+  )
+)
+
+(defwidget workspace [number active]
+  (eventbox
+    :onhover "${EWW_CMD} update workspace-hover=${number}"
+    (button
+      :onclick "hyprctl dispatch workspace ${number} && ~/bin/update_workspace_position"
+      (overlay
+        (revealer
+          :transition "crossfade"
+          :reveal {workspace-hover != number && ! active}
+          (image :path '/home/nicholas/.config/eww/rhomnus.svg' :image-width 32 :image-height 32)
+        )
+        (revealer
+          :transition "crossfade"
+          :reveal {workspace-hover == number && ! active}
+          (image :path '/home/nicholas/.config/eww/rhombus_faded.svg' :image-width 32 :image-height 32)
+        )
+        (revealer
+          :transition "crossfade"
+          :reveal active
+          (image :path '/home/nicholas/.config/eww/rhombus_faded_yellow.svg' :image-width 32 :image-height 32)
+        )
+        (box
+          :class "workspace-number"
+          number
+        )
+      )
+    )
+  )
+)
+
+
+
+
+(defwidget status [] "ah" )
+
+(defwidget left []
+  (box
+    (workspaces)
+    (image :path "/home/nicholas/.config/eww/rhomnus.svg" :image-width 32 :image-height 32)
+  )
+)
+(defwidget middle [] (time))
+(defwidget right [] (status))
+(defwidget time []
+  (box :orientation "h" 
+       :class "time"
+    (overlay
+      (image :path "/home/nicholas/.config/eww/trapazoid_faded_yellow.svg")
+      "${day}${day_suffix} ${month} - ${hour}:${min} ${am_pm}"
+    )))
+
+
+
+;; (defwidget metric [icon ?font-size]
+;;   (box :class "metric" 
+;;        :orientation "v"
+;;     (label :class "metric-icon" 
+;;            :style {font-size != "" ? "font-size: ${font-size}rem;" : ""} 
+;;            :text icon)
+;;     (children)))
+;;
+;; (defwidget bottom [screen] 
+;;   (box :orientation "v"
+;;        :valign "end"
+;;        :space-evenly true
+;;        :spacing "5"
+;;
+;;     (metric :icon "" :font-size 1 (music-button))
+;;
+;;     (volume)
+;;
+;;     (metric :icon "" 
+;;             :font-size 0.8
+;;       "${round((1 - (EWW_DISK["/"].free / EWW_DISK["/"].total)) * 100, 0)}%")
+;;
+;;     (metric :icon "" "${round(EWW_RAM.used_mem_perc, 0)}%")
+;;
+;;     (metric :icon "" "${round(EWW_CPU.avg, 0)}%")
+;;
+;;     (box :class "metric" (date))))
+;;
+;; (defwidget music-button []
+;;   (button :onclick "playerctl play-pause"
+;;     "${music_data == "" ? "⏸" : music_data.status == "Playing" ? "⏸" : "▶"}"))
+;;
+;; (defwidget volume []
+;;   (box :class "volume-metric"
+;;        :orientation "v"
+;;        :space-evenly false
+;;        :valign "fill"
+;;        :vexpand false
+;;     (scale :orientation "h" 
+;;            :min 0
+;;            :max 100 
+;;            :onchange "pamixer --set-volume $(echo {} | sed 's/\\..*//g')"
+;;            :value volume)
+;;     (eventbox :onscroll "if [ '{}' == 'up' ]; then pamixer -i 5; else pamixer -d 5; fi"
+;;               :vexpand true
+;;               :valign "fill"
+;;       (box :orientation "v"
+;;            :valign "fill"
+;;            :vexpand true
+;;         (button :onclick "./audio.sh toggle"
+;;           (label :style "font-size: 1.2em; font-family: DejaVuSansMono Nerd Font Mono"
+;;                  :text audio_sink))
+;;         (button :onclick "pavucontrol &"
+;;           "${volume}%")))))
+;;
+;;
+;;
+;;
+;; (defwidget large-sym [sym]
+;;   (label :class "metric-icon large-symbol" :text sym))
+;;
+;; (defwidget date []
+;;   (box :orientation "v" 
+;;        :halign "center" 
+;;     day_word day month year))
+;;
+;; ; TODO make this not hacky
+;; (defvar audio_sink "")
+;;
+;; (deflisten volume :initial "0" "./audio.sh volume")
+;;
+;; (deflisten music_data 
+;;   :initial `{"status": ""}`
+;;   `
+;;   playerctl          metadata --format '{ "status": "{{status}}", "artist": "{{artist}}", "title": "{{title}}"}' || echo '{"status": ""}';
+;;   # playerctl --follow metadata --format '{ "status": "{{status}}", "artist": "{{artist}}", "title": "{{title}}"}'
+;;   `)
+;;
+(defpoll hour :interval "1s" "date +%_I | xargs")
+(defpoll min  :interval "1s" "date +%M")
+(defpoll am_pm :interval "1s" "date +%p")
+;;
+(defpoll day      :interval "10m" "date +%_d | xargs")
+(defpoll day_suffix :interval "10m" "sh ~/.config/eww/date_suffix.sh")
+(defpoll month    :interval "1h"  "date +%b")
+;;
+;; (defvar workspaces_1_yuck "")
+;; (defvar workspaces_2_yuck "")
+
+
+(defwindow bar_1
+  ;; :monitor "DisplayPort-0"
+  :monitor 0
+  :stacking "bg"
+  :exclusive true
+  :namespace "eww-topbar"
+  :geometry (geometry :x "1.5%" :y "3px" :width "99%" :height "36px" :anchor "top center")
+  (bar :screen 1))
+
