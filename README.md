@@ -33,6 +33,8 @@ Mirror nvim panels.
 # Configurations
 
 [ ] hyprland
+[ ] hyprlock
+[ ] hypridle
 [ ] alacritty
 [ ] neovim
 [ ] eww
