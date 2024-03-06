@@ -53,8 +53,38 @@ install_config_component() {
 	fi
 
 	local COMPONENT="$1"
-	local SRC="$SCRIPT_DIR/../.config/$COMPONENT"
-	local DEST="$HOME/.config/$COMPONENT"
+	local FROM="$SCRIPT_DIR/../.config/"
+	local TO="$HOME/.config/"
+
+	link_directory "$COMPONENT" "$FROM" "$TO"
+}
+
+
+install_font() {
+	# Check function arguments.
+	if [[ "$#" != "1" ]]; then
+		echo "Error: Expected 1 argument, got $#."
+	fi
+
+	local COMPONENT="$1"
+	local FROM="$SCRIPT_DIR/../.local/share/fonts/"
+	local TO="$HOME/.local/share/fonts/"
+
+	mkdir -p "$TO"
+
+	link_directory "$COMPONENT" "$FROM" "$TO"
+}
+
+# link a COMPONENT from FROM to TO
+link_directory() {
+	# Check function arguments.
+	if [[ "$#" != "3" ]]; then
+		echo "Error: Expected 3 argument, got $#."
+	fi
+
+	local COMPONENT="$1"
+	local SRC="$FROM/$COMPONENT"
+	local DEST="$TO/$COMPONENT"
 
 	function make_link {
 		local TARGET
@@ -77,14 +107,14 @@ install_config_component() {
 	# Case 1.
 	# Also make sure it isn't a broken link
 	if [ ! -f "$DEST" ] && [ ! -d "$DEST" ] && [ ! -e "$DEST" ] && [ ! -h "$DEST" ]; then
-		echo "Linking config $COMPONENT"
+		echo "Linking $COMPONENT"
 		make_link
 		return
 	fi
 
 	# Case 2.
 	if [ -d "$DEST" ] && ! [ -L "$DEST" ]; then
-		if prompt "Found existing directry at $DEST" "Make backup and install config component link?"; then
+		if prompt "Found existing directry at $DEST" "Make backup and install component link?"; then
 			mv "$DEST" "${DEST}_backup"
 			make_link
 		else
@@ -120,3 +150,4 @@ install_config_component() {
 	if [ -L "$DEST" ]; then echo YES; else echo NO; fi
 	echo "readlink: $(readlink -f "$DEST")"
 }
+

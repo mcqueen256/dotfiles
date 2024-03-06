@@ -1,0 +1,12 @@
+[window]
+dynamic_padding = true
+
+[font]
+normal = { family = "Mononoki Nerd Font Mono", style = "Regular" }
+size = 14.0
+
+
+[colors]
+primary = { background = "#181818" }
+cursor = { cursor = "#00FF9C" }
+selection = { background = "#009F4B" }

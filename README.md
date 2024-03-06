@@ -89,3 +89,24 @@ File `/tmp/hyprland_workspace_position` is used to track the current workspace. 
 # Design insperation
 
 https://dribbble.com/shots/21534554-Cyberpunk-2077-PPT-Template
+
+
+# Set up serial devices
+
+References: [Arch Wiki: Arduino](https://wiki.archlinux.org/title/Arduino) [Arch Wiki: Working with Serial](https://wiki.archlinux.org/title/Working_with_the_serial_console#Making_Connections)
+
+```
+echo 'SUBSYSTEMS=="usb-serial", TAG+="uaccess"' | sudo tee -a /etc/udev/rules.d/01-ttyusb.rules
+```
+
+
+# Developer environment
+
+Enable git to handle large files:
+
+```
+git lfs install
+```
+
+# Remapping Keys
+
