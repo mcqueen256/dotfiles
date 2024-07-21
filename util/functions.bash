@@ -53,7 +53,7 @@ install_config_component() {
 	fi
 
 	local COMPONENT="$1"
-	local FROM="$SCRIPT_DIR/../.config"
+	local FROM="$SCRIPT_DIR/../config"
 	local TO="$HOME/.config"
 
 	link_directory "$COMPONENT" "$FROM" "$TO"
