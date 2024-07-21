@@ -53,8 +53,8 @@ install_config_component() {
 	fi
 
 	local COMPONENT="$1"
-	local FROM="$SCRIPT_DIR/../.config/"
-	local TO="$HOME/.config/"
+	local FROM="$SCRIPT_DIR/../.config"
+	local TO="$HOME/.config"
 
 	link_directory "$COMPONENT" "$FROM" "$TO"
 }
@@ -90,7 +90,7 @@ link_directory() {
 		local TARGET
 		local LINKNAME
 		TARGET="$(realpath "$SRC")"
-		LINKNAME="$(realpath "$DEST")"
+		LINKNAME="$(python3 -c "import os, sys; print(os.path.abspath(sys.argv[1]))" "$DEST")"
 		ln -s "$TARGET" "$LINKNAME"
 	}
 

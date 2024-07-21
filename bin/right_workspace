@@ -1,3 +1,0 @@
-#!/usr/bin/env bash
-hyprctl dispatch workspace +1
-~/bin/update_workspace_position

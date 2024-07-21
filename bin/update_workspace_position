@@ -1,2 +1,0 @@
-#!/usr/bin/env bash
-hyprctl activeworkspace | rg -e 'workspace ID (\d+) .*' -r '$1' | xargs >>/tmp/hyprland_workspace_position

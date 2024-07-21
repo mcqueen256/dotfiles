@@ -1,2 +1,0 @@
-#!/usr/bin/env bash
-hyprctl activewindow | rg -e 'workspace: (\d+) .*' -r '$1' | xargs
